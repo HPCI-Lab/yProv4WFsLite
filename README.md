@@ -3,6 +3,7 @@
 A simple Python tool to build W3C-PROV provenance graphs from workflow descriptions written in YAML.
 It uses the prov library to create entities, activities, and their relationships, and can export the results to PROV-JSON and a graph visualization (PNG).
 
+This is useful when having to create large provenance graphs without needing to re-run the entire workflow. 
 
 ### Features
 
@@ -16,6 +17,10 @@ It uses the prov library to create entities, activities, and their relationships
     - PNG graph (requires Graphviz)
 
 ### Installation
+
+Check out the [yProv4ML documentation](https://hpci-lab.github.io/yProv4ML.github.io/installation.html) page to install graphviz.
+
+Then: 
 
 ```
 git clone https://github.com/HPCI-Lab/yProv4WFsLite.git
