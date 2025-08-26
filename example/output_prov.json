@@ -4,9 +4,18 @@
   },
   "activity": {
     "yProv4WFsLite:task1": {
+      "yProv4WFsLite:timestamp": {
+        "$": 12345,
+        "type": "xsd:int"
+      },
+      "yProv4WFsLite:context": "training",
       "prov:label": "Load Data"
     },
     "yProv4WFsLite:task2": {
+      "yProv4WFsLite:timestamp": {
+        "$": 456677,
+        "type": "xsd:int"
+      },
       "prov:label": "Process Data"
     },
     "yProv4WFsLite:task3": {

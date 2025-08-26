@@ -34,12 +34,17 @@ pip install -r requirements.txt
 tasks:
   - id: task1
     label: "Load Data"
+    attributes: 
+      - timestamp: 12345
+      - context: "training"
     inputs: []
     outputs:
       - "uuid-1234"
 
   - id: task2
     label: "Process Data"
+    attributes: 
+      - timestamp: 456677
     inputs:
       - "uuid-1234"
     outputs:

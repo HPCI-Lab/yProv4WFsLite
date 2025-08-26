@@ -20,10 +20,11 @@ class ProvWorkflowManager:
             self.entities[uid] = self.doc.entity(uid, {"prov:label": label or uid})
         return self.entities[uid]
 
-    def _create_activity(self, aid=None, label=None):
+    def _create_activity(self, aid=None, label=None, attributes=[]):
         if not aid:
             aid = f"activity-{uuid.uuid4()}"
-        activity = self.doc.activity(aid, None, None, {"prov:label": label or aid})
+        attributes["prov:label"] = label or aid
+        activity = self.doc.activity(aid, None, None, attributes)
         self.activities[aid] = activity
         return activity
 
@@ -35,10 +36,14 @@ class ProvWorkflowManager:
             task_id = task.get("id") or f"activity-{uuid.uuid4()}"
             task_id = IDENTIFIER + ":" + task_id
             label = task.get("label", task_id)
+
+            attributes = task.get("attributes", [])
+            attrs = {IDENTIFIER + ":" + list(a.keys())[0]: list(a.values())[0] for a in attributes}
+
             inputs = [IDENTIFIER +":" + i for i in task.get("inputs", []) if i]
             outputs = [IDENTIFIER +":" + o for o in task.get("outputs", []) if o]
 
-            activity = self._create_activity(task_id, label)
+            activity = self._create_activity(task_id, label, attrs)
 
             for input_id in inputs:
                 entity = self._get_or_create_entity(input_id)
