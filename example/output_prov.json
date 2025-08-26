@@ -1,0 +1,51 @@
+{
+  "prefix": {
+    "yProv4WFsLite": "yProv4WFsLite"
+  },
+  "activity": {
+    "yProv4WFsLite:task1": {
+      "prov:label": "Load Data"
+    },
+    "yProv4WFsLite:task2": {
+      "prov:label": "Process Data"
+    },
+    "yProv4WFsLite:task3": {
+      "prov:label": "Analyze Results"
+    }
+  },
+  "entity": {
+    "yProv4WFsLite:uuid-1234": {
+      "prov:label": "yProv4WFsLite:uuid-1234"
+    },
+    "yProv4WFsLite:uuid-5678": {
+      "prov:label": "yProv4WFsLite:uuid-5678"
+    },
+    "yProv4WFsLite:uuid-9999": {
+      "prov:label": "yProv4WFsLite:uuid-9999"
+    }
+  },
+  "wasGeneratedBy": {
+    "_:id1": {
+      "prov:entity": "yProv4WFsLite:uuid-1234",
+      "prov:activity": "yProv4WFsLite:task1"
+    },
+    "_:id3": {
+      "prov:entity": "yProv4WFsLite:uuid-5678",
+      "prov:activity": "yProv4WFsLite:task2"
+    },
+    "_:id5": {
+      "prov:entity": "yProv4WFsLite:uuid-9999",
+      "prov:activity": "yProv4WFsLite:task3"
+    }
+  },
+  "used": {
+    "_:id2": {
+      "prov:activity": "yProv4WFsLite:task2",
+      "prov:entity": "yProv4WFsLite:uuid-1234"
+    },
+    "_:id4": {
+      "prov:activity": "yProv4WFsLite:task3",
+      "prov:entity": "yProv4WFsLite:uuid-5678"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+tasks:
+  - id: task1
+    label: "Load Data"
+    inputs: []
+    outputs:
+      - "uuid-1234"
+
+  - id: task2
+    label: "Process Data"
+    inputs:
+      - "uuid-1234"
+    outputs:
+      - "uuid-5678"
+
+  - id: task3
+    label: "Analyze Results"
+    inputs:
+      - "uuid-5678"
+    outputs:
+      - "uuid-9999"
