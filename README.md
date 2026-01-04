@@ -23,8 +23,8 @@ Check out the [yProv4ML documentation](https://hpci-lab.github.io/yProv4ML/insta
 Then: 
 
 ```
-git clone https://github.com/HPCI-Lab/yProv4WFsLite.git
-cd yProv4WFsLite
+git clone https://github.com/HPCI-Lab/y2Graph.git
+cd y2Graph
 pip install -r requirements.txt
 ```
 
