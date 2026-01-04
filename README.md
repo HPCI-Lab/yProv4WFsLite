@@ -18,7 +18,7 @@ This is useful when having to create large provenance graphs without needing to 
 
 ### Installation
 
-Check out the [yProv4ML documentation](https://hpci-lab.github.io/yProv4ML.github.io/installation.html) page to install graphviz.
+Check out the [yProv4ML documentation](https://hpci-lab.github.io/yProv4ML/installation.html) page to install graphviz.
 
 Then: 
 

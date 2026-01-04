@@ -1,0 +1,26 @@
+tasks:
+  - id: use_id_1_from_other_file
+    label: "External user's operation"
+    attributes: 
+      - timestamp: 456677
+    inputs:
+      - "id1"
+    outputs:
+      - "id4"
+
+  - id: use_id4_and_id2_from_other_file
+    label: "Complex Operation"
+    attributes: 
+      - timestamp: 566677
+    inputs:
+      - "id4"
+      - "id2"
+    outputs:
+      - "id5"
+
+  - id: use_id_5
+    label: "Final Task"
+    inputs:
+      - "id5"
+    outputs:
+      - "id6"

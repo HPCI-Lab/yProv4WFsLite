@@ -1,0 +1,114 @@
+{
+  "prefix": {
+    "yProv4WFsLite": "yProv4WFsLite"
+  },
+  "activity": {
+    "yProv4WFsLite:generate_id1": {
+      "yProv4WFsLite:timestamp": {
+        "$": 12345,
+        "type": "xsd:int"
+      },
+      "yProv4WFsLite:context": "training",
+      "prov:label": "Generate 1"
+    },
+    "yProv4WFsLite:use_id_1": {
+      "yProv4WFsLite:timestamp": {
+        "$": 456656,
+        "type": "xsd:int"
+      },
+      "prov:label": "Use Id 1"
+    },
+    "yProv4WFsLite:use_id2": {
+      "prov:label": "Use id 2"
+    },
+    "yProv4WFsLite:use_id_1_from_other_file": {
+      "yProv4WFsLite:timestamp": {
+        "$": 456677,
+        "type": "xsd:int"
+      },
+      "prov:label": "External user's operation"
+    },
+    "yProv4WFsLite:use_id4_and_id2_from_other_file": {
+      "yProv4WFsLite:timestamp": {
+        "$": 566677,
+        "type": "xsd:int"
+      },
+      "prov:label": "Complex Operation"
+    },
+    "yProv4WFsLite:use_id_5": {
+      "prov:label": "Final Task"
+    }
+  },
+  "entity": {
+    "yProv4WFsLite:id1": {
+      "prov:label": "yProv4WFsLite:id1"
+    },
+    "yProv4WFsLite:id2": {
+      "prov:label": "yProv4WFsLite:id2"
+    },
+    "yProv4WFsLite:id3": {
+      "prov:label": "yProv4WFsLite:id3"
+    },
+    "yProv4WFsLite:id4": {
+      "prov:label": "yProv4WFsLite:id4"
+    },
+    "yProv4WFsLite:id5": {
+      "prov:label": "yProv4WFsLite:id5"
+    },
+    "yProv4WFsLite:id6": {
+      "prov:label": "yProv4WFsLite:id6"
+    }
+  },
+  "wasGeneratedBy": {
+    "_:id1": {
+      "prov:entity": "yProv4WFsLite:id1",
+      "prov:activity": "yProv4WFsLite:generate_id1"
+    },
+    "_:id3": {
+      "prov:entity": "yProv4WFsLite:id2",
+      "prov:activity": "yProv4WFsLite:use_id_1"
+    },
+    "_:id5": {
+      "prov:entity": "yProv4WFsLite:id3",
+      "prov:activity": "yProv4WFsLite:use_id2"
+    },
+    "_:id7": {
+      "prov:entity": "yProv4WFsLite:id4",
+      "prov:activity": "yProv4WFsLite:use_id_1_from_other_file"
+    },
+    "_:id10": {
+      "prov:entity": "yProv4WFsLite:id5",
+      "prov:activity": "yProv4WFsLite:use_id4_and_id2_from_other_file"
+    },
+    "_:id12": {
+      "prov:entity": "yProv4WFsLite:id6",
+      "prov:activity": "yProv4WFsLite:use_id_5"
+    }
+  },
+  "used": {
+    "_:id2": {
+      "prov:activity": "yProv4WFsLite:use_id_1",
+      "prov:entity": "yProv4WFsLite:id1"
+    },
+    "_:id4": {
+      "prov:activity": "yProv4WFsLite:use_id2",
+      "prov:entity": "yProv4WFsLite:id2"
+    },
+    "_:id6": {
+      "prov:activity": "yProv4WFsLite:use_id_1_from_other_file",
+      "prov:entity": "yProv4WFsLite:id1"
+    },
+    "_:id8": {
+      "prov:activity": "yProv4WFsLite:use_id4_and_id2_from_other_file",
+      "prov:entity": "yProv4WFsLite:id4"
+    },
+    "_:id9": {
+      "prov:activity": "yProv4WFsLite:use_id4_and_id2_from_other_file",
+      "prov:entity": "yProv4WFsLite:id2"
+    },
+    "_:id11": {
+      "prov:activity": "yProv4WFsLite:use_id_5",
+      "prov:entity": "yProv4WFsLite:id5"
+    }
+  }
+}

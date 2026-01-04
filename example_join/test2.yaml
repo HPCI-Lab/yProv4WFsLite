@@ -1,0 +1,25 @@
+tasks:
+  - id: generate_id1
+    label: "Generate 1"
+    attributes: 
+      - timestamp: 12345
+      - context: "training"
+    inputs: []
+    outputs:
+      - "id1"
+
+  - id: use_id_1
+    label: "Use Id 1"
+    attributes: 
+      - timestamp: 456656
+    inputs:
+      - "id1"
+    outputs:
+      - "id2"
+
+  - id: use_id2
+    label: "Use id 2"
+    inputs:
+      - "id2"
+    outputs:
+      - "id3"
