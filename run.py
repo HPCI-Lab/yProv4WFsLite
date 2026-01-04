@@ -1,7 +1,7 @@
 import uuid
 import yaml
 from prov.model import ProvDocument
-from prov.dot import prov_to_dot
+from utils import custom_prov_to_dot, replace_nodes_with_images
 import argparse
 
 IDENTIFIER = "yProv4WFsLite"
@@ -13,11 +13,17 @@ class ProvWorkflowManager:
         self.entities = {}
         self.activities = {}
 
-    def _get_or_create_entity(self, uid, label=None):
+    def _get_or_create_entity(self, uid, ents, label=None):
         if not uid:
             uid = f"{IDENTIFIER}:entity-{uuid.uuid4()}"
         if uid not in self.entities:
             self.entities[uid] = self.doc.entity(uid, {"prov:label": label or uid})
+
+        if len(ents) > 0: 
+            name = uid.replace("yProv4WFsLite:", "")
+            if name in ents.keys():
+                self.entities[uid].add_attributes({"prov:"+k: v for k, v in ents[name].items()})
+
         return self.entities[uid]
 
     def _create_activity(self, aid=None, label=None, attributes=[]):
@@ -28,38 +34,62 @@ class ProvWorkflowManager:
         self.activities[aid] = activity
         return activity
 
+    def _create_user(self, label): 
+        user = self.doc.agent(label)
+        return user 
+
     def load_from_yaml(self, yaml_path):
         with open(yaml_path, 'r') as f:
             workflow = yaml.safe_load(f)
 
+        entities = workflow.get("entities", [])
+        
         for task in workflow.get("tasks", []):
             task_id = task.get("id") or f"activity-{uuid.uuid4()}"
             task_id = IDENTIFIER + ":" + task_id
-            label = task.get("label", task_id)
 
+            label = task.get("label", task_id)
+            agent = task.get("agent", None)
             attributes = task.get("attributes", [])
+
             attrs = {IDENTIFIER + ":" + list(a.keys())[0]: list(a.values())[0] for a in attributes}
 
             inputs = [IDENTIFIER +":" + i for i in task.get("inputs", []) if i]
             outputs = [IDENTIFIER +":" + o for o in task.get("outputs", []) if o]
 
             activity = self._create_activity(task_id, label, attrs)
+            if agent: 
+                user_id = IDENTIFIER + ":" + agent
+                user = self._create_user(user_id)
+                activity.wasAssociatedWith(user)
 
             for input_id in inputs:
-                entity = self._get_or_create_entity(input_id)
+                entity = self._get_or_create_entity(input_id, entities)
                 self.doc.used(activity, entity)
 
             for output_id in outputs:
-                entity = self._get_or_create_entity(output_id)
+                entity = self._get_or_create_entity(output_id, entities)
                 self.doc.wasGeneratedBy(entity, activity)
+            
                 
     def export_prov_json(self, path="workflow_prov.json"):
         with open(path, "w") as f:
             f.write(self.doc.serialize(indent=2))
 
     def render_graph(self, path="workflow_graph.png"):
-        dot = prov_to_dot(self.doc)
-        dot.write_png(path)
+        dot = custom_prov_to_dot(self.doc)
+        dot = replace_nodes_with_images(dot.to_string())
+        # dot.write_png(path)
+
+        dot_path = path.split(".")[0] + ".dot"
+        with open(dot_path, "w") as f:
+            f.write(dot)
+        import subprocess
+        if path.endswith(".pdf"): 
+            subprocess.run(["dot", "-Tpdf", dot_path, "-o", path])
+        else: 
+            subprocess.run(["dot", "-Tpng", dot_path, "-o", path])
+        
 
 
 if __name__ == "__main__": 
@@ -77,7 +107,7 @@ if __name__ == "__main__":
         output_prov += ".json"
     output_graph = args.output if args.output else "output_graph"
     if not output_graph.endswith(".png") and not output_graph.endswith(".jpg"): 
-        output_graph += ".png"
+        output_graph += ".pdf"
 
     manager = ProvWorkflowManager()
     manager.load_from_yaml(args.filename)

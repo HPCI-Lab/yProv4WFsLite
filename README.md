@@ -1,6 +1,6 @@
-# yProv4WFsLite
+# y2Graph
 
-A simple Python tool to build W3C-PROV provenance graphs from workflow descriptions written in YAML.
+y2Graph (yaml to graph)  is a simple Python tool to build W3C-PROV provenance graphs from workflow descriptions written in YAML.
 It uses the prov library to create entities, activities, and their relationships, and can export the results to PROV-JSON and a graph visualization (PNG).
 
 This is useful when having to create large provenance graphs without needing to re-run the entire workflow. 

@@ -1,1 +1,12 @@
 .DS_Store
+matteo_use_case
+prov
+__pycache__
+examples
+tmp
+
+*.dot
+*.json
+*.svg
+*.pdf
+*.png

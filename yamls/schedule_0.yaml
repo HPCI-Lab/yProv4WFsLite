@@ -1,0 +1,60 @@
+entities:
+  Decision:
+    region: GB
+    time: '2023-03-16 10:00:00'
+  Job:
+    arrival: '2023-03-14 11:00:00'
+    num_nodes: 4
+    walltime_hours: 4
+  context_AU-NSW:
+    src: tmp/context_AU-NSW.png
+  context_GB:
+    src: tmp/context_GB.png
+  context_US-MIDA-PJM:
+    src: tmp/context_US-MIDA-PJM.png
+  context_power:
+    src: tmp/context_power.png
+  forecast_AU-NSW:
+    src: tmp/forecast_AU-NSW.png
+  forecast_GB:
+    src: tmp/forecast_GB.png
+  forecast_US-MIDA-PJM:
+    src: tmp/forecast_US-MIDA-PJM.png
+  forecast_power:
+    src: tmp/forecast_power.png
+tasks:
+- agent: Forecaster
+  id: Forecasting
+  inputs:
+  - context_AU-NSW
+  - context_US-MIDA-PJM
+  - context_GB
+  - context_power
+  label: Forecasting
+  outputs:
+  - forecast_AU-NSW
+  - forecast_US-MIDA-PJM
+  - forecast_GB
+  - forecast_power
+- agent: Scheduler
+  attributes:
+  - alpha: 0.5
+  - lookahead_hours: 72
+  id: Scheduling
+  inputs:
+  - forecast_AU-NSW
+  - forecast_US-MIDA-PJM
+  - forecast_GB
+  - forecast_power
+  - Policy
+  - Job
+  label: Scheduling
+  outputs:
+  - Decision
+- agent: User
+  id: Submission
+  inputs: []
+  label: Submission
+  outputs:
+  - Policy
+  - Job
