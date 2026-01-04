@@ -1,7 +1,7 @@
 
 ### Example with Images
 
-![ExampleWithImages](./assets/images.png)
+![ExampleWithImages](./docs/src/assets/images.png)
 
 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
     <a href=".readme.md" style="text-decoration: none; background-color: #006269; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: 0.3s;">← Prev</a>
