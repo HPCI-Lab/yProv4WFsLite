@@ -70,3 +70,7 @@ python run.py test.yaml
 - output_graph.png: Graph visualization of tasks and data flow
 
 ![output_graph](example/output_graph.png)
+
+### Documentation
+
+For detailed information, please refer to the [Documentation](https://hpci-lab.github.io/y2Graph/)

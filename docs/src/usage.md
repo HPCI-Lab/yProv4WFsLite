@@ -1,10 +1,17 @@
 
 ### Usage
 
+Currently, two usage modalities are available: 
+
+The former simply allows to convert from a yaml to W3C ProvJSON and the respective graph form: 
 
 ```bash
 python run.py example_simple/test1.yaml example_simple/test2.yaml --join -j combined.json -o combined.pdf
+```
 
+The latter allows to specify multiple yaml files, and to connect the jsons into a single file, as well as creating a common graph representation. This feature uses UIDs to identify shared elements which can be connected.  
+
+```bash
 python run.py example_simple/test.yaml -j simple.json -o simple.pdf
 ```
 
