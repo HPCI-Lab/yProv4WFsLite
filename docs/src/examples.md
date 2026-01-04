@@ -1,7 +1,7 @@
 
 ### Example
 
-A set of 5 examples are provided: 
+A set of 3 examples are provided: 
 - [Simple](./example_simple.md)
 - [Joined](./example_join.md)
 - [Images](./example_images.md)
