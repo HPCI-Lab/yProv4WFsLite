@@ -6,8 +6,7 @@ import argparse
 import os
 import subprocess
 
-IDENTIFIER = "yProv4WFsLite"
-
+IDENTIFIER = "y2Graph"
 
 class ProvWorkflowManager:
     def __init__(self):
@@ -105,28 +104,49 @@ class ProvWorkflowManager:
         else:
             subprocess.run(["dot", "-Tpng", dot_path, "-o", path])
 
+    def load_from_prov_json(self, json_path):
+        """
+        Load an existing PROV-JSON and merge it into the current document.
+        Unification happens automatically by identifier.
+        """
+        temp_doc = ProvDocument()
+        with open(json_path, "rb") as f:
+            temp_doc = temp_doc.deserialize(content=f.read())
 
-# =========================
-# CLI
-# =========================
+        for ns in temp_doc.namespaces:
+            prefix = ns.prefix
+            uri = str(ns.uri)
+            if prefix not in self.doc._namespaces:
+                self.doc.add_namespace(prefix, uri)
+
+        self.doc.update(temp_doc)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        prog="yProv4WFsLite",
-        description="Build W3C-PROV provenance graphs from YAML workflow descriptions.",
+        prog="y2Graph",
+        description="Build and merge W3C-PROV provenance graphs from YAML or PROV-JSON.",
     )
 
-    # 🔹 Multiple YAML files
-    parser.add_argument("filenames", nargs="+", help="YAML workflow files")
+    parser.add_argument(
+        "filenames",
+        nargs="+",
+        help="Input files (YAML workflows or PROV JSONs)",
+    )
 
-    # 🔹 Join mode
+    parser.add_argument(
+        "--from-json",
+        action="store_true",
+        help="Treat input files as PROV-JSON instead of YAML",
+    )
+
     parser.add_argument(
         "--join",
         action="store_true",
-        help="Join all YAML workflows into a single PROV document",
+        help="Join all inputs into a single PROV document",
     )
 
-    parser.add_argument("-j", "--json", help="Output JSON (joined mode)")
-    parser.add_argument("-o", "--output", help="Output graph (joined mode)")
+    parser.add_argument("-j", "--json", help="Output JSON filename")
+    parser.add_argument("-o", "--output", help="Output graph filename")
 
     args = parser.parse_args()
 
@@ -136,31 +156,37 @@ if __name__ == "__main__":
     if args.join:
         manager = ProvWorkflowManager()
 
-        for yaml_file in args.filenames:
-            manager.load_from_yaml(yaml_file)
+        for file in args.filenames:
+            if args.from_json:
+                manager.load_from_prov_json(file)
+            else:
+                manager.load_from_yaml(file)
 
-        json_path = args.json or "output_prov.json"
+        json_path = args.json or "final_prov.json"
         if not json_path.endswith(".json"):
             json_path += ".json"
 
-        graph_path = args.output or "output_graph.pdf"
+        graph_path = args.output or "final_graph.pdf"
         if not graph_path.endswith((".png", ".pdf")):
             graph_path += ".pdf"
 
-        manager.export_prov_json(json_path)
+        if not args.from_json: 
+            manager.export_prov_json(json_path)
         manager.render_graph(graph_path)
 
     # =========================
     # SEPARATE MODE
     # =========================
     else:
-        for yaml_file in args.filenames:
+        for file in args.filenames:
             manager = ProvWorkflowManager()
-            manager.load_from_yaml(yaml_file)
 
-            base = os.path.splitext(os.path.basename(yaml_file))[0]
-            json_path = f"{base}_prov.json"
-            graph_path = f"{base}_graph.pdf"
+            if args.from_json:
+                manager.load_from_prov_json(file)
+            else:
+                manager.load_from_yaml(file)
 
-            manager.export_prov_json(json_path)
-            manager.render_graph(graph_path)
+            base = os.path.splitext(os.path.basename(file))[0]
+            if not args.from_json: 
+                manager.export_prov_json(f"{base}.json")
+            manager.render_graph(f"{base}.pdf")

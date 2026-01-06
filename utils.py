@@ -22,9 +22,12 @@ def replace_nodes_with_images(dot_content):
 
         stripped = line.strip()
         if contains_image(stripped):
-            img_path = stripped.split(">")[1].split("<")[0]
-            nl = f"<TD FIXEDSIZE=\"TRUE\" WIDTH=\"10\" HEIGHT=\"100\" ><IMG SRC=\"{img_path}\"/></TD>"
-            new_lines.append(nl)
+            try: 
+                img_path = stripped.split(">")[1].split("<")[0]
+                nl = f"<TD FIXEDSIZE=\"TRUE\" WIDTH=\"10\" HEIGHT=\"100\" ><IMG SRC=\"{img_path}\"/></TD>"
+                new_lines.append(nl)
+            except: 
+                continue
             continue
 
         new_lines.append(line)
