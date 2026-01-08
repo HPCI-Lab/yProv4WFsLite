@@ -91,6 +91,8 @@ class ProvWorkflowManager:
         with open(path, "w") as f:
             f.write(self.doc.serialize(indent=2))
 
+
+
     def render_graph(self, path):
         dot = custom_prov_to_dot(self.doc)
         dot_str = replace_nodes_with_images(dot.to_string())
@@ -120,6 +122,34 @@ class ProvWorkflowManager:
                 self.doc.add_namespace(prefix, uri)
 
         self.doc.update(temp_doc)
+
+    def deduplicate_relations(self):
+        """
+        Remove duplicate PROV relation records (used, wasGeneratedBy, etc.).
+        Keeps one instance per unique signature.
+        """
+        seen = set()
+        unique_records = []
+
+        for record in self.doc.get_records():
+            # Only deduplicate relations (keep entities, activities, agents)
+            if record.is_relation():
+                # Signature = (type, args, attributes)
+                sig = (
+                    record.get_type(),
+                    tuple(record.args),
+                    tuple(record.attributes),
+                )
+                if sig in seen:
+                    continue
+                seen.add(sig)
+
+            unique_records.append(record)
+
+        # Replace document records
+        self.doc._records = unique_records
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -170,6 +200,7 @@ if __name__ == "__main__":
         if not graph_path.endswith((".png", ".pdf")):
             graph_path += ".pdf"
 
+        manager.deduplicate_relations()
         if not args.from_json: 
             manager.export_prov_json(json_path)
         manager.render_graph(graph_path)
@@ -187,6 +218,7 @@ if __name__ == "__main__":
                 manager.load_from_yaml(file)
 
             base = os.path.splitext(os.path.basename(file))[0]
+            manager.deduplicate_relations()
             if not args.from_json: 
                 manager.export_prov_json(f"{base}.json")
             manager.render_graph(f"{base}.pdf")
